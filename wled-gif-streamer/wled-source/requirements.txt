@@ -2,7 +2,7 @@ requests
 toml
 colorlog
 pyserial
-opencv-python-headless
+opencv-python
 numpy
 vidgear
 yt-dlp
