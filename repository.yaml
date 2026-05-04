@@ -1,3 +1,18 @@
-name: "My Custom WLED gif player for 2x2 matrix"
-url: "https://github.com/Rice-Labs/wled-gif-player-script"
-maintainer: "Lucas"
+name: "WLED GIF Streamer"
+description: "Streams GIFs from /share/wled_gifs to WLED via DDP"
+version: "1.0.0"
+slug: "wled_gif_streamer"
+arch:
+  - amd64
+  - aarch64
+init: false
+map:
+  - share:rw
+options:
+  wled_host: "192.168.0.40"
+  matrix_width: 32
+  matrix_height: 32
+schema:
+  wled_host: str
+  matrix_width: int
+  matrix_height: int
