@@ -1,6 +1,6 @@
 name: "WLED GIF Streamer"
 description: "Streams GIFs from /share/wled_gifs to WLED via DDP"
-version: "1.0.10"
+version: "1.0.11"
 slug: "wled_gif_streamer"
 arch:
   - amd64
