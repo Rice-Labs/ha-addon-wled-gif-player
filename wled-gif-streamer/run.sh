@@ -14,7 +14,7 @@ while true; do
             bashio::log.info "Streaming $(basename "$FILE")"
             
             # Note the path to the script: wled-video/wledvideo.py
-            python3 wled-video/wledvideo.py \
+            python3 wled-source/wledvideo.py \
                 --host "$WLED_HOST" \
                 --width "$WIDTH" \
                 --height "$HEIGHT" \
