@@ -4,22 +4,35 @@ WLED_HOST=$(bashio::config 'wled_host')
 WIDTH=$(bashio::config 'matrix_width')
 HEIGHT=$(bashio::config 'matrix_height')
 MEDIA_DIR="/share/wled_gifs"
+LOOPS_PER_VIDEO=4
 
-bashio::log.info "Starting WLED-video Streamer from subfolder..."
+bashio::log.info "Starting WLED GIF Player..."
+
+# Ensure directory exists to avoid ls errors
+if [ ! -d "$MEDIA_DIR" ]; then
+    bashio::log.error "Directory $MEDIA_DIR does not exist!"
+    exit 1
+fi
 
 while true; do
-    if ls "$MEDIA_DIR"/*.gif >/dev/null 2>&1; then
-        for FILE in "$MEDIA_DIR"/*.gif; do
-            [ -e "$FILE" ] || continue
-            bashio::log.info "Streaming $(basename "$FILE")"
-            
-            # Note the path to the script: wled-video/wledvideo.py
-            python3 wled-source/wledvideo.py \
-                --host "$WLED_HOST" \
-                --width "$WIDTH" \
-                --height "$HEIGHT" \
-                --loop 1 \
-                "$FILE"
+    # 1. Get the list of gifs, shuffle them just like the OG script
+    MAPFILE=($(ls -1 "$MEDIA_DIR"/*.gif 2>/dev/null | shuf))
+
+    if [ ${#MAPFILE[@]} -gt 0 ]; then
+        for FULLPATH in "${MAPFILE[@]}"; do
+            [ -f "$FULLPATH" ] || continue
+            FILE_NAME=$(basename "$FULLPATH")
+
+            # 2. Replicate the nested loop for playback count
+            for ((i=1; i<=LOOPS_PER_VIDEO; i++)); do
+                bashio::log.info "Playing $FILE_NAME (loop $i/$LOOPS_PER_VIDEO)"
+
+                python3 wled-source/wledvideo.py \
+                    --host "$WLED_HOST" \
+                    --width "$WIDTH" \
+                    --height "$HEIGHT" \
+                    "$FULLPATH"
+            done
         done
     else
         bashio::log.warning "No GIFs found in $MEDIA_DIR. Waiting 10 seconds..."
