@@ -293,6 +293,6 @@ if __name__ == "__main__":
     if not args.display:
         player.stop()
 
-    cv2.destroyAllWindows()
+    #cv2.destroyAllWindows()
     for wled_streamer in wled_streamers:
         wled_streamer.close()
