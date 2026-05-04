@@ -12,6 +12,8 @@ options:
   wled_host: "192.168.0.40"
   matrix_width: 32
   matrix_height: 32
+  media_dir: "/share/wled_gifs"
+  loops_per_video: 4
 schema:
   wled_host: str
   matrix_width: int
