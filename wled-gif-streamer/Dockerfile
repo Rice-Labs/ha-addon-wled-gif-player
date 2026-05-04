@@ -26,4 +26,6 @@ RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 COPY . .
 
 # Execution command
-CMD [ "python3", "/app/main.py" ]
+RUN chmod a+x run.sh
+
+CMD [ "/app/run.sh" ]
