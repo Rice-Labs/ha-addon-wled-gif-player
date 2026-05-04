@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Ensure we use the right pip and install requirements
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r wled-source/requirements.txt
 
 # Copy your source code
 COPY . .
