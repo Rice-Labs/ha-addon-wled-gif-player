@@ -1,13 +1,14 @@
-# Use the Home Assistant Debian-based base image (better for pre-compiled binaries)
+# Use the official Home Assistant base image
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:latest
 FROM $BUILD_FROM
 
-# Install only the runtime system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies using Alpine's package manager (apk)
+RUN apk add --no-cache \
     ffmpeg \
-    libgl1 \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+    libgcc \
+    libstdc++ \
+    glib \
+    libjpeg-turbo
 
 # Set up the app
 WORKDIR /app
