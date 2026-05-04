@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Ensure we use the right pip and install requirements
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir --break-system-packages -r wled-source/requirements.txt
+COPY wled-source/requirements.txt .
+RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
 # Copy your source code
 COPY . .
