@@ -18,3 +18,6 @@ schema:
   wled_host: str
   matrix_width: int
   matrix_height: int
+  media_dir: str
+  loops_per_video: int
+  
