@@ -1,23 +1,26 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-python:3.12-alpine3.19
 FROM $BUILD_FROM
 
-# Install system dependencies
+# Install system dependencies and build tools
 RUN apk add --no-cache \
     ffmpeg \
     libgcc \
     libstdc++ \
     libjpeg-turbo \
-    openblas
+    openblas \
+    build-base \
+    cmake \
+    linux-headers
 
 WORKDIR /app
 
-# Copy everything (including the wled-video subfolder)
+# Copy everything
 COPY . .
 
-# Install dependencies from the subfolder
-RUN pip3 install --no-cache-dir -r wled-source/requirements.txt
+# Install dependencies
+# We use --prefer-binary to avoid compiling from scratch
+RUN pip3 install --no-cache-dir --prefer-binary -r wled-source/requirements.txt
 
-# Ensure the run script is executable
 RUN chmod a+x run.sh
 
 CMD [ "/app/run.sh" ]
