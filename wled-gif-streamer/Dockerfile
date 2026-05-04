@@ -1,20 +1,23 @@
-# We change the base to 'debian-base' so the binary feels at home
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-debian:latest
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-python:3.12-alpine3.19
 FROM $BUILD_FROM
 
-# We use 'apt-get' because we are now on a Debian-based image
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies
+RUN apk add --no-cache \
     ffmpeg \
-    libgl1 \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+    libgcc \
+    libstdc++ \
+    libjpeg-turbo \
+    openblas
 
-# Set up the app
 WORKDIR /app
-COPY wledvideo .
-COPY run.sh .
 
-# Ensure everything is executable
-RUN chmod +x wledvideo run.sh
+# Copy everything (including the wled-video subfolder)
+COPY . .
+
+# Install dependencies from the subfolder
+RUN pip3 install --no-cache-dir -r wled-source/requirements.txt
+
+# Ensure the run script is executable
+RUN chmod a+x run.sh
 
 CMD [ "/app/run.sh" ]
