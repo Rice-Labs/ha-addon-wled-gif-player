@@ -3,8 +3,8 @@
 WLED_HOST=$(bashio::config 'wled_host')
 WIDTH=$(bashio::config 'matrix_width')
 HEIGHT=$(bashio::config 'matrix_height')
-MEDIA_DIR="/share/wled_gifs"
-LOOPS_PER_VIDEO=4
+MEDIA_DIR=$(bashio::config 'media_dir')
+LOOPS_PER_VIDEO=$(bashio::config 'loops_per_video')
 
 bashio::log.info "Starting WLED GIF Player..."
 
